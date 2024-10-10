@@ -196,7 +196,10 @@ class DefaultCookieJar implements CookieJar {
   }
 
   bool _check(String scheme, SerializableCookie cookie) {
-    return cookie.cookie.secure && scheme == 'https' || !_isExpired(cookie);
+    if (cookie.cookie.secure) {
+      return scheme == 'https' && !_isExpired(cookie);
+    }
+    return !_isExpired(cookie);
   }
 
   String _curDir(String path) {
